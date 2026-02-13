@@ -114,36 +114,41 @@ export default function BookmarkList() {
             <Favicon url={bookmark.url} title={bookmark.title} />
             
             {/* Content */}
-            <div className="flex-1 min-w-0 grid gap-0.5">
-                <a 
-                    href={bookmark.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-gray-900 leading-tight truncate hover:text-primary transition-colors pr-6" 
-                    title={bookmark.title}
-                >
-                    {bookmark.title}
-                </a>
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground/80">
-                    <span className="truncate max-w-[200px]">{new URL(bookmark.url).hostname}</span>
-                    <ExternalLink className="w-2.5 h-2.5 opacity-50" />
+            <div className="flex-1 min-w-0 flex flex-col justify-center">
+                <div className="flex items-center justify-between gap-2">
+                    <a 
+                        href={bookmark.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-gray-900 leading-tight truncate hover:text-primary transition-colors text-base" 
+                        title={bookmark.title}
+                    >
+                        {bookmark.title}
+                    </a>
+                    
+                    {/* Always visible delete on mobile, hover on desktop */}
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 text-muted-foreground/30 hover:text-destructive hover:bg-destructive/10 shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleDelete(bookmark.id);
+                        }}
+                        aria-label="Delete bookmark"
+                    >
+                        <Trash2 className="w-3.5 h-3.5" />
+                    </Button>
+                </div>
+                
+                <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
+                    <span className="truncate max-w-[180px] bg-slate-100 px-1.5 py-0.5 rounded-md text-slate-600 font-medium">
+                        {new URL(bookmark.url).hostname}
+                    </span>
+                    <ExternalLink className="w-3 h-3 opacity-30" />
                 </div>
             </div>
-
-            {/* Actions */}
-            <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 text-muted-foreground/40 hover:text-destructive hover:bg-destructive/10 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleDelete(bookmark.id);
-                }}
-                aria-label="Delete bookmark"
-            >
-                <Trash2 className="w-4 h-4" />
-            </Button>
           </div>
         </Card>
       ))}
