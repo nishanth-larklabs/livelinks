@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Chrome } from "lucide-react";
+import { Compass } from "lucide-react";
 import { useState } from "react";
 
 export default function Login() {
@@ -45,7 +45,7 @@ export default function Login() {
            {isLoading ? (
              <span className="animate-spin w-4 h-4 border-2 border-current border-t-transparent rounded-full" />
            ) : (
-             <Chrome className="w-5 h-5" />
+             <Compass className="w-5 h-5" />
            )}
            Sign in with Google
          </Button>
