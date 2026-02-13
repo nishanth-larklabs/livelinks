@@ -17,7 +17,20 @@ export default function Navbar() {
       setUserEmail(user?.email || null);
     };
     getUser();
-  }, [supabase]);
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        setUserEmail(null);
+        router.refresh();
+      } else if (session?.user) {
+        setUserEmail(session.user.email || null);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase, router]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -35,9 +48,12 @@ export default function Navbar() {
               <span>{userEmail}</span>
             </div>
           )}
-          <Button variant="ghost" onClick={handleLogout} size="sm">
-            Sign out
-          </Button>
+          
+          {userEmail && (
+            <Button variant="ghost" onClick={handleLogout} size="sm">
+                Sign out
+            </Button>
+          )}
         </div>
       </div>
     </nav>
