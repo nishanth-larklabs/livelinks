@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
-import { User } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -38,24 +38,41 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center justify-between mx-auto px-4 max-w-4xl">
-        <div className="font-bold text-lg tracking-tight">Smart Bookmark App</div>
-        <div className="flex items-center gap-4">
-          {userEmail && (
-            <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
-              <User className="w-4 h-4" />
-              <span>{userEmail}</span>
-            </div>
-          )}
+    <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+      <nav className="w-full max-w-3xl rounded-full border border-white/40 bg-white/70 shadow-xl shadow-purple-500/5 backdrop-blur-md supports-[backdrop-filter]:bg-white/60 pointer-events-auto transition-all hover:scale-[1.01]">
+        <div className="flex h-14 items-center justify-between px-2 pl-6 pr-2">
           
-          {userEmail && (
-            <Button variant="ghost" onClick={handleLogout} size="sm">
-                Sign out
-            </Button>
-          )}
+          {/* Logo / Brand */}
+          <div className="flex items-center gap-2">
+            <div className="font-extrabold text-lg tracking-tight text-primary">
+              SmartLinks
+            </div>
+          </div>
+          
+          {/* User Controls */}
+          <div className="flex items-center gap-2">
+            {userEmail ? (
+              <>
+                <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-muted-foreground bg-secondary/50 px-3 py-1.5 rounded-full ring-1 ring-black/5">
+                  <User className="w-3.5 h-3.5 text-primary" />
+                  <span className="truncate max-w-[150px]">{userEmail}</span>
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={handleLogout} 
+                  className="rounded-full h-10 w-10 text-muted-foreground hover:bg-red-50 hover:text-red-500 transition-colors"
+                  title="Sign out"
+                >
+                    <LogOut className="w-4 h-4" />
+                </Button>
+              </>
+            ) : (
+                <div className="text-sm font-medium text-muted-foreground px-4">Welcome Guest</div>
+            )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }

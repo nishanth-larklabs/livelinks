@@ -40,39 +40,32 @@ export default function AddBookmarkForm() {
   };
 
   return (
-    <Card className="w-full mb-8">
-      <CardHeader>
-        <CardTitle className="text-lg">Add New Bookmark</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid gap-2">
-            <Label htmlFor="url">URL</Label>
-            <Input
-              id="url"
-              placeholder="https://example.com"
-              type="url"
-              required
-              value={url}
-              onChange={(e) => setJsonUrl(e.target.value)}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="title">Title</Label>
-            <Input
-              id="title"
-              placeholder="My Favorite Site"
-              required
-              maxLength={200}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-          <Button type="submit" disabled={isPending} className="w-full sm:w-auto">
-            {isPending ? "Adding..." : <><Plus className="w-4 h-4 mr-2" />Add Bookmark</>}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid gap-2">
+        <Label htmlFor="url">URL</Label>
+        <Input
+          id="url"
+          placeholder="https://example.com"
+          type="url"
+          required
+          value={url}
+          onChange={(e) => setJsonUrl(e.target.value)}
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="title">Title</Label>
+        <Input
+          id="title"
+          placeholder="My Favorite Site"
+          required
+          maxLength={200}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+      <Button type="submit" disabled={isPending} className="w-full">
+        {isPending ? "Adding..." : <><Plus className="w-4 h-4 mr-2" />Add Bookmark</>}
+      </Button>
+    </form>
   );
 }

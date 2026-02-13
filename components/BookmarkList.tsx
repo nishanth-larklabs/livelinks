@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Trash2, ExternalLink } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Trash2, ExternalLink, Globe } from "lucide-react";
 
 type Bookmark = {
   id: string;
@@ -70,7 +70,6 @@ export default function BookmarkList() {
   }, [supabase]);
 
   const handleDelete = async (id: string) => {
-    // Optimistic update
     const originalBookmarks = [...bookmarks];
     setBookmarks(bookmarks.filter((b) => b.id !== id));
 
@@ -78,54 +77,72 @@ export default function BookmarkList() {
 
     if (error) {
       console.error("Error deleting bookmark:", error);
-      // Revert if failed
       setBookmarks(originalBookmarks);
       alert("Failed to delete bookmark");
     }
   };
 
   if (loading) {
-    return <div className="text-center py-8 text-muted-foreground">Loading bookmarks...</div>;
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-24 bg-secondary/20 animate-pulse rounded-3xl" />
+            ))}
+        </div>
+    );
   }
 
   if (bookmarks.length === 0) {
     return (
-        <div className="text-center py-12 border rounded-lg bg-muted/20">
-            <p className="text-muted-foreground">No bookmarks yet. Add your first bookmark above!</p>
+        <div className="flex flex-col items-center justify-center py-16 text-center bg-secondary/10 rounded-3xl border border-dashed border-secondary">
+            <div className="h-12 w-12 bg-secondary/20 rounded-full flex items-center justify-center mb-3">
+                <Globe className="h-6 w-6 text-muted-foreground/50" />
+            </div>
+            <p className="text-muted-foreground font-medium">No bookmarks yet</p>
+            <p className="text-sm text-muted-foreground/60">Add your first link above!</p>
         </div>
     )
   }
 
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {bookmarks.map((bookmark) => (
-        <Card key={bookmark.id} className="overflow-hidden">
-          <CardContent className="p-4 flex items-center justify-between gap-4">
-            <div className="flex-1 min-w-0">
-              <h3 className="font-medium truncate" title={bookmark.title}>
-                {bookmark.title}
-              </h3>
-              <a
-                href={bookmark.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:underline truncate block flex items-center gap-1"
-                title={bookmark.url}
-              >
-                {bookmark.url}
-                <ExternalLink className="w-3 h-3 inline" />
-              </a>
+        <Card key={bookmark.id} className="group relative overflow-hidden transition-all hover:shadow-md border border-black/5 bg-white">
+          <div className="p-5 flex flex-col gap-3 h-full">
+            <div className="flex items-start justify-between gap-2">
+                <div className="h-10 w-10 shrink-0 rounded-2xl bg-purple-50 flex items-center justify-center text-primary font-bold text-lg">
+                    {bookmark.title.charAt(0).toUpperCase()}
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-muted-foreground/40 hover:text-destructive hover:bg-destructive/10 -mr-2 -mt-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => handleDelete(bookmark.id)}
+                  aria-label="Delete bookmark"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
             </div>
-            <Button
-              variant="destructive"
-              size="icon"
-              onClick={() => handleDelete(bookmark.id)}
-              aria-label="Delete bookmark"
-              className="shrink-0"
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
-          </CardContent>
+            
+            <div className="space-y-1">
+                <h3 className="font-bold text-gray-900 leading-tight line-clamp-1" title={bookmark.title}>
+                    {bookmark.title}
+                </h3>
+                <a
+                    href={bookmark.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-muted-foreground hover:text-primary truncate block flex items-center gap-1 transition-colors"
+                    title={bookmark.url}
+                >
+                    <span className="truncate">{new URL(bookmark.url).hostname}</span>
+                    <ExternalLink className="w-3 h-3 opacity-50" />
+                </a>
+            </div>
+          </div>
+          
+          {/* Decorative bottom decorative line */}
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         </Card>
       ))}
     </div>
