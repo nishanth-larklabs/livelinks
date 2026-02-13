@@ -39,7 +39,7 @@ export default async function Home() {
           
           {/* Add Bookmark Section - Prominent Card */}
           <div className="md:col-span-4 lg:col-span-4 flex flex-col gap-6">
-            <Card className="h-fit bg-linear-to-br from-indigo-50/50 via-purple-50/50 to-pink-50/50 border-white/50 shadow-sm hover:shadow-md transition-all duration-300 top-24 sticky">
+            <Card className="h-fit bg-white/80 backdrop-blur-sm border-white/50 shadow-sm hover:shadow-md transition-all duration-300 top-24 sticky">
                <CardHeader className="pb-2">
                   <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center mb-2">
                     <Plus className="h-5 w-5 text-primary" />
