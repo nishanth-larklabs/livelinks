@@ -108,40 +108,43 @@ export default function BookmarkList() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {bookmarks.map((bookmark) => (
-        <Card key={bookmark.id} className="group relative overflow-hidden transition-all hover:shadow-md border border-black/5 bg-white">
-          <div className="p-5 flex flex-col gap-3 h-full">
-            <div className="flex items-start justify-between gap-2">
-                <Favicon url={bookmark.url} title={bookmark.title} />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-muted-foreground/40 hover:text-destructive hover:bg-destructive/10 -mr-2 -mt-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => handleDelete(bookmark.id)}
-                  aria-label="Delete bookmark"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-            </div>
+        <Card key={bookmark.id} className="group relative overflow-hidden transition-all hover:bg-slate-50 hover:shadow-sm border border-black/5 bg-white">
+          <div className="p-4 flex items-center gap-4">
+            {/* Icon */}
+            <Favicon url={bookmark.url} title={bookmark.title} />
             
-            <div className="space-y-1">
-                <h3 className="font-bold text-gray-900 leading-tight line-clamp-1" title={bookmark.title}>
-                    {bookmark.title}
-                </h3>
-                <a
+            {/* Content */}
+            <div className="flex-1 min-w-0 grid gap-0.5">
+                <a 
                     href={bookmark.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-muted-foreground hover:text-primary truncate block flex items-center gap-1 transition-colors"
-                    title={bookmark.url}
+                    className="font-bold text-gray-900 leading-tight truncate hover:text-primary transition-colors pr-6" 
+                    title={bookmark.title}
                 >
-                    <span className="truncate">{new URL(bookmark.url).hostname}</span>
-                    <ExternalLink className="w-3 h-3 opacity-50" />
+                    {bookmark.title}
                 </a>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground/80">
+                    <span className="truncate max-w-[200px]">{new URL(bookmark.url).hostname}</span>
+                    <ExternalLink className="w-2.5 h-2.5 opacity-50" />
+                </div>
             </div>
+
+            {/* Actions */}
+            <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground/40 hover:text-destructive hover:bg-destructive/10 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleDelete(bookmark.id);
+                }}
+                aria-label="Delete bookmark"
+            >
+                <Trash2 className="w-4 h-4" />
+            </Button>
           </div>
-          
-          {/* Decorative bottom decorative line */}
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         </Card>
       ))}
     </div>
