@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Trash2, ExternalLink, Globe } from "lucide-react";
+import { Favicon } from "./Favicon";
 
 type Bookmark = {
   id: string;
@@ -110,9 +111,7 @@ export default function BookmarkList() {
         <Card key={bookmark.id} className="group relative overflow-hidden transition-all hover:shadow-md border border-black/5 bg-white">
           <div className="p-5 flex flex-col gap-3 h-full">
             <div className="flex items-start justify-between gap-2">
-                <div className="h-10 w-10 shrink-0 rounded-2xl bg-purple-50 flex items-center justify-center text-primary font-bold text-lg">
-                    {bookmark.title.charAt(0).toUpperCase()}
-                </div>
+                <Favicon url={bookmark.url} title={bookmark.title} />
                 <Button
                   variant="ghost"
                   size="icon"
