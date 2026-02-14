@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Trash2, ExternalLink, Globe } from "lucide-react";
 import { Favicon } from "./Favicon";
+import { motion, AnimatePresence } from "framer-motion";
 
 type Bookmark = {
   id: string;
@@ -95,21 +96,38 @@ export default function BookmarkList() {
 
   if (bookmarks.length === 0) {
     return (
-        <div className="flex flex-col items-center justify-center py-16 text-center bg-secondary/10 rounded-3xl border border-dashed border-secondary">
+        <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex flex-col items-center justify-center py-16 text-center bg-secondary/10 rounded-3xl border border-dashed border-secondary"
+        >
             <div className="h-12 w-12 bg-secondary/20 rounded-full flex items-center justify-center mb-3">
                 <Globe className="h-6 w-6 text-muted-foreground/50" />
             </div>
             <p className="text-muted-foreground font-medium">No bookmarks yet</p>
             <p className="text-sm text-muted-foreground/60">Add your first link above!</p>
-        </div>
+        </motion.div>
     )
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <motion.div 
+      layout
+      className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+    >
+      <AnimatePresence mode="popLayout">
       {bookmarks.map((bookmark) => (
-        <Card key={bookmark.id} className="group relative overflow-hidden transition-all hover:bg-slate-50 hover:shadow-sm border border-black/5 bg-white">
-          <div className="p-4 flex items-center gap-4">
+        <motion.div
+            layout
+            key={bookmark.id}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
+            whileHover={{ y: -2, transition: { duration: 0.2 } }}
+            transition={{ layout: { type: "spring", stiffness: 300, damping: 30 } }}
+        >
+        <Card className="group relative overflow-hidden transition-all hover:bg-slate-50 hover:shadow-md border border-black/5 bg-white h-full">
+          <div className="p-4 flex items-center gap-4 h-full">
             {/* Icon */}
             <Favicon url={bookmark.url} title={bookmark.title} />
             
@@ -151,7 +169,9 @@ export default function BookmarkList() {
             </div>
           </div>
         </Card>
+        </motion.div>
       ))}
-    </div>
+      </AnimatePresence>
+    </motion.div>
   );
 }
