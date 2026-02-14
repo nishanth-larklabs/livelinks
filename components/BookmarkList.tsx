@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Trash2, ExternalLink, Globe } from "lucide-react";
 import { Favicon } from "./Favicon";
 import { motion, AnimatePresence } from "framer-motion";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 type Bookmark = {
   id: string;
@@ -145,19 +146,25 @@ export default function BookmarkList() {
                     </a>
                     
                     {/* Always visible delete on mobile, hover on desktop */}
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 text-muted-foreground/30 hover:text-destructive hover:bg-destructive/10 shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleDelete(bookmark.id);
-                        }}
-                        aria-label="Delete bookmark"
-                    >
-                        <Trash2 className="w-3.5 h-3.5" />
-                    </Button>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 text-muted-foreground/30 hover:text-destructive hover:bg-destructive/10 shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleDelete(bookmark.id);
+                            }}
+                        >
+                            <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Delete bookmark</p>
+                      </TooltipContent>
+                    </Tooltip>
                 </div>
                 
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">

@@ -6,6 +6,7 @@ import { User, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function Navbar() {
   const supabase = createClient();
@@ -72,21 +73,27 @@ export default function Navbar() {
                   <User className="w-3.5 h-3.5 text-primary" />
                   <span className="truncate max-w-[150px]">{userEmail}</span>
                 </motion.div>
-                <Button 
-                  asChild
-                  variant="ghost" 
-                  size="icon"
-                  onClick={handleLogout} 
-                  className="rounded-full h-10 w-10 text-muted-foreground hover:bg-red-50 hover:text-red-500 transition-colors"
-                  title="Sign out"
-                >
-                  <motion.button
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </motion.button>
-                </Button>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      asChild
+                      variant="ghost" 
+                      size="icon"
+                      onClick={handleLogout} 
+                      className="rounded-full h-10 w-10 text-muted-foreground hover:bg-red-50 hover:text-red-500 transition-colors"
+                    >
+                      <motion.button
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <LogOut className="w-4 h-4" />
+                      </motion.button>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Sign out</p>
+                  </TooltipContent>
+                </Tooltip>
               </>
             ) : (
                 <div className="text-sm font-medium text-muted-foreground px-4">Welcome Guest</div>
