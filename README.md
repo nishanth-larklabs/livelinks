@@ -32,7 +32,7 @@ A modern, real-time bookmark manager built with Next.js, Supabase, and Tailwind 
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/your-username/livelinks.git
+    git clone https://github.com/nishanth-larklabs/livelinks.git
     cd livelinks
     ```
 
